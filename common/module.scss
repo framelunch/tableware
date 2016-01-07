@@ -1,0 +1,80 @@
+@import "variables";
+@import "mixin";
+
+.mContainer {
+    max-width: $pc-width;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+
+    @include tb {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    @include sp {
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+.mMenu {
+    overflow: hidden;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 3px;
+
+    @include e(item) {
+        padding: 1em;
+        background-color: white;
+        @include m(muted) {
+            background-color: lightgray !important;
+        }
+    }
+    @include e(target) {
+        display: block;
+        margin: -1em;
+        padding: 1em;
+        text-decoration: none;
+        position: relative;
+    }
+}
+.mMenu_item + .mMenu_item {
+    border-top: 1px solid dodgerblue;
+}
+
+.mGrid {
+    margin-left: -10px;
+    margin-right: -10px;
+
+    @include e(item) {
+        float: left;
+        box-sizing: border-box;
+        width: 25%;
+        padding-left: 10px;
+        padding-right: 10px;
+
+        @include tb {
+            width: 33.33%;
+        }
+        @include sp {
+            width: 50%;
+        }
+    }
+}
+
+.mFormGroup {
+    padding: 15px 0;
+
+    @include e(label) {
+        font-size: 1.6rem;
+        font-weight: bold;
+    }
+    @include e(text) {
+        box-sizing: border-box;
+        padding: 5px 2px;
+        border: 1px solid $gray-light;
+        width: 100%;
+        font-size: 1.6rem;
+        outline: none;
+    }
+}

@@ -1,0 +1,13 @@
+@import "mixin";
+@import "reset";
+@import "variables";
+@import "utils";
+
+body {
+    font-family: "メイリオ","ヒラギノ角ゴ Pro W3","MS PGothic","MS UI Gothic",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+a {
+    text-decoration: none;
+    color: inherit;
+}

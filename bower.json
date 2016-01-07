@@ -1,0 +1,21 @@
+{
+  "name": "tableware",
+  "description": "",
+  "main": "gulpfile.js",
+  "authors": [
+    "pond6 <ikeda@framelunch.jp>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/framelunch/tableware",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4"
+  }
+}
