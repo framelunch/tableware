@@ -125,6 +125,7 @@
 	        this.r = 0;
 	        this.sx = 1;
 	        this.sy = 1;
+	        this.color = 'rgba(0, 0, 0, 1)';
 	        this.hidden = false;
 	        this.parent = 1;
 	        this.canvas = null;

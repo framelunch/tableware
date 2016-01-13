@@ -1,34 +1,32 @@
 var
-    degree = require('utils/degree'),
-    notice = require('notice'),
-    cup = require('cup/'),
-    spoon = require("spoon/"),
-    ease = require('spoon/easing'),
+    oC = require('obon/'),
+    oA = require("odori/"),
 
     init = function () {
         var
-            button = function(color){
+            button = function(){
                 var twIn, twOut;
                 return {
                     isPointer: true,
                     draw: function (c, b) {
-                        c.fillStyle = color;
+                        c.fillStyle = this.color;
                         c.fillRect(b.x, b.y, b.w, b.h);
                     },
                     mouseover: function (e) {
-                        spoon.pause(twIn, twOut);
-                        twIn = spoon(this, {sy:2}, 800, 'ElasticOut');
+                        oA.pause(twIn, twOut);
+                        twIn = oA(this, {sy:2, color:'#006655'}, 800, oA.ElasticOut);
                     },
                     mouseout: function (e) {
-                        spoon.pause(twIn, twOut);
-                        twOut = spoon(this, {sy:1}, 800, 'elasticOut');
+                        oA.pause(twIn, twOut);
+                        twOut = oA(this, {sy:1, color:'#00ff00'}, 800, oA.ElasticOut);
                     }
                 }
             };
 
-        cup.appendTo('#main', {w:300, h:3000}).append(
-            cup.sprite({x:10, y:10, sx:2, r:degree(10)}).append(
-                cup.responder(button('#00ff00'), {
+        oC.appendTo('body', {id:'test', w:300, h:3000}).append(
+            oC.sprite({x:10, y:10, sx:2, r:oC.degree(10)}).append(
+                oC.responder(button('#00ff00'), {
+                    color: '#00ff00',
                     bounds:{w:50, h:50},
                     click: function () {
                         console.log('click!');
@@ -37,19 +35,17 @@ var
             )
         );
 
-        var svg = $('#svg1'),
-            dom = $('#dom1');
+        console.log(window);
 
-        spoon.serial(
-            spoon(dom, {offset: {left: 300}}, 800, 'QuartInOut'),
-            spoon.to(dom, {height: 300}, 800, 'QuartOut'),
-            spoon.from(dom, {height: 300}, 800, 'quartOut'),
-            spoon(dom, {scaleX: 2, scaleY: 2}, 800, ease.elasticout),
-            spoon(svg, {attr: {width:100}}, 800, ease.elasticout),
-            spoon.from($(window), {scrollTop: 2000}, 1000, ease.quartout)
+        oA('#dom1', {sx:3});
+        oA.serial(
+            oA.to('#dom1', {x:10, y:50, r:oC.degree(10), sx:2}, 800, oA.QuartInOut),
+            oA.to('#dom1', {x:100, r:oC.degree(0)}, 800, oA.QuartInOut),
+            oA.to('#dom1', {css: {height: 400}}, 800, oA.QuartInOut),
+            oA.to('#path1', {attr: {'stroke-width': 30}}, 800, oA.QuintOut),
+            oA.to('#svg1', {css: {width:100}}, 800, oA.ElasticOut),
+            oA.from(window, {scrollTop: 2000}, 1000, oA.QuartOut)
         ).play();
-
-        $('#path1').kf({attr: {'stroke-width': 30}}, 800);
     };
 
 init();

@@ -58,7 +58,25 @@
 
 
 /***/ },
-/* 4 */,
+/* 4 */
+/***/ function(module, exports) {
+
+	var main = function (to, from) {
+	    var name, value;
+	    for(name in from) {
+	        value = from[name];
+	        if (typeof to[name] === 'object') {
+	            main(to[name], value);
+	        } else {
+	            to[name] = value;
+	        }
+	    }
+	    return to;
+	};
+
+	module.exports = main;
+
+/***/ },
 /* 5 */,
 /* 6 */,
 /* 7 */,
@@ -221,7 +239,9 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var
-	    Tween = __webpack_require__(23),
+	    merge = __webpack_require__(4),
+	    ease = __webpack_require__(23),
+	    Tween = __webpack_require__(34),
 	    Serial = __webpack_require__(37),
 	    Parallel = __webpack_require__(38),
 	    Delay = __webpack_require__(39),
@@ -255,19 +275,494 @@
 	    }
 	};
 
-	module.exports = main;
-
+	module.exports = merge(main, ease);
 
 /***/ },
 /* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var Back = __webpack_require__(24),
+	    Bounce = __webpack_require__(25),
+	    Circ = __webpack_require__(26),
+	    Cubic = __webpack_require__(27),
+	    Elastic = __webpack_require__(28),
+	    Expo = __webpack_require__(29),
+	    Quad = __webpack_require__(30),
+	    Quart = __webpack_require__(31),
+	    Quint = __webpack_require__(32),
+	    Sine = __webpack_require__(33);
+
+	module.exports = {
+	    Linear: function(t,b,c,d){ return c * t / d + b; },
+
+	    BackIn: Back.in,
+	    BackOut: Back.out,
+	    BackInOut: Back.inout,
+	    BackOutIn: Back.outin,
+	    BackInWith: Back.inWith,
+	    BackOutWith: Back.outWith,
+	    BackInOutWith: Back.inoutWith,
+	    BackOutInWith: Back.outinWith,
+
+	    BounceIn: Bounce.in,
+	    BounceOut: Bounce.out,
+	    BounceInOut: Bounce.inout,
+	    BounceOutIn: Bounce.outin,
+
+	    CircIn: Circ.in,
+	    CircOut: Circ.out,
+	    CircInOut: Circ.inout,
+	    CircOutIn: Circ.outin,
+
+	    CubicIn: Cubic.in,
+	    CubicOut: Cubic.out,
+	    CubicInOut: Cubic.inout,
+	    CubicOutIn: Cubic.outin,
+
+	    ElasticIn: Elastic.in,
+	    ElasticOut: Elastic.out,
+	    ElasticInOut: Elastic.inout,
+	    ElasticOutIn: Elastic.outin,
+	    ElasticInWith: Elastic.inWith,
+	    ElasticOutWith: Elastic.outWith,
+	    ElasticInOutWith: Elastic.inoutWith,
+	    ElasticOutInWith: Elastic.outinWith,
+
+	    ExpoIn: Expo.in,
+	    ExpoOut: Expo.out,
+	    ExpoInOut: Expo.inout,
+	    ExpoOutIn: Expo.outin,
+
+	    QuadIn: Quad.in,
+	    QuadOut: Quad.out,
+	    QuadInOut: Quad.inout,
+	    QuadOutIn: Quad.outin,
+
+	    QuartIn: Quart.in,
+	    QuartOut: Quart.out,
+	    QuartInOut: Quart.inout,
+	    QuartOutIn: Quart.outin,
+
+	    QuintIn: Quint.in,
+	    QuintOut: Quint.out,
+	    QuintInOut: Quint.inout,
+	    QuintOutIn: Quint.outin,
+
+	    SineIn: Sine.in,
+	    SineOut: Sine.out,
+	    SineInOut: Sine.inout,
+	    SineOutIn: Sine.outin
+	};
+
+
+/***/ },
+/* 24 */
+/***/ function(module, exports) {
+
 	var
-	    loop = __webpack_require__(24),
+	    _in = function(t, b, c, d, s)
+	    {
+	        return c * (t /= d) * t * ((s + 1) * t - s) + b;
+	    },
+	    _out = function(t, b, c, d, s)
+	    {
+	        return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+	    },
+	    _inout = function(t, b, c, d, s)
+	    {
+	        if ((t /= d / 2) < 1) {
+	            return c / 2 * (t * t * (((s * 1.525) + 1) * t - s * 1.525)) + b;
+	        }
+	        return c / 2 * ((t -= 2) * t * (((s * 1.525) + 1) * t + s * 1.525) + 2) + b;
+	    },
+	    _outin = function(t, b, c, d, s)
+	    {
+	        if (t < d / 2) {
+	            return (c / 2) * ((t = (t * 2) / d - 1) * t * ((s + 1) * t + s) + 1) + b;
+	        }
+	        return (c / 2) * (t = (t * 2 - d) / d) * t * ((s + 1) * t - s) + (b + c / 2);
+	    };
+
+	module.exports = {
+	    in:function(t,b,c,d){ return _in(t,b,c,d,1.70158); },
+	    out:function(t,b,c,d){ return _out(t,b,c,d,1.70158); },
+	    inout:function(t,b,c,d){ return _inout(t,b,c,d,1.70158); },
+	    outin:function(t,b,c,d){ return _outin(t,b,c,d,1.70158); },
+	    inWith:function(s){ return function(t,b,c,d){ return _in(t,b,c,d,s); }; },
+	    outWith:function(s){ return function(t,b,c,d){ return _out(t,b,c,d,s); }; },
+	    inoutWith:function(s){ return function(t,b,c,d){ return _inout(t,b,c,d,s); }; },
+	    outinWith:function(s){ return function(t,b,c,d){ return _outin(t,b,c,d,s); }; }
+	};
+
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    in:function(t,b,c,d)
+	    {
+	        if ((t = (d - t) / d) < (1 / 2.75)) {
+	            return c - (c * (7.5625 * t * t)) + b;
+	        }
+	        if (t < (2 / 2.75)) {
+	            return c - (c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75)) + b;
+	        }
+	        if (t < (2.5 / 2.75)) {
+	            return c - (c * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375)) + b;
+	        }
+	        return c - (c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375)) + b;
+	    },
+	    out:function(t,b,c,d)
+	    {
+	        if ((t /= d) < (1 / 2.75)) {
+	            return c * (7.5625 * t * t) + b;
+	        }
+	        if (t < (2 / 2.75)) {
+	            return c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75) + b;
+	        }
+	        if (t < (2.5 / 2.75)) {
+	            return c * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375) + b;
+	        }
+	        return c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375) + b;
+	    },
+	    inout:function(t,b,c,d)
+	    {
+	        if (t < d / 2) {
+	            if ((t = (d - t * 2) / d) < (1 / 2.75)) {
+	                return (c - (c * (7.5625 * t * t))) * 0.5 + b;
+	            }
+	            if (t < (2 / 2.75)) {
+	                return (c - (c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75))) * 0.5 + b;
+	            }
+	            if (t < (2.5 / 2.75)) {
+	                return (c - (c * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375))) * 0.5 + b;
+	            }
+	            return (c - (c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375))) * 0.5 + b;
+	        }
+	        else {
+	            if ((t = (t * 2 - d) / d) < (1 / 2.75)) {
+	                return (c * (7.5625 * t * t)) * 0.5 + c * 0.5 + b;
+	            }
+	            if (t < (2 / 2.75)) {
+	                return (c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75)) * 0.5 + c * 0.5 + b;
+	            }
+	            if (t < (2.5 / 2.75)) {
+	                return (c * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375)) * 0.5 + c * 0.5 + b;
+	            }
+	            return (c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375)) * 0.5 + c * 0.5 + b;
+	        }
+	    },
+	    outin:function(t,b,c,d)
+	    {
+	        if (t < d / 2) {
+	            if ((t = (t * 2) / d) < (1 / 2.75)) {
+	                return (c / 2) * (7.5625 * t * t) + b;
+	            }
+	            if (t < (2 / 2.75)) {
+	                return (c / 2) * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75) + b;
+	            }
+	            if (t < (2.5 / 2.75)) {
+	                return (c / 2) * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375) + b;
+	            }
+	            return (c / 2) * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375) + b;
+	        }
+	        else {
+	            if ((t = (d - (t * 2 - d)) / d) < (1 / 2.75)) {
+	                return (c / 2) - ((c / 2) * (7.5625 * t * t)) + (b + c / 2);
+	            }
+	            if (t < (2 / 2.75)) {
+	                return (c / 2) - ((c / 2) * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75)) + (b + c / 2);
+	            }
+	            if (t < (2.5 / 2.75)) {
+	                return (c / 2) - ((c / 2) * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375)) + (b + c / 2);
+	            }
+	            return (c / 2) - ((c / 2) * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375)) + (b + c / 2);
+	        }
+	    }
+	};
+
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    in:function(t,b,c,d)
+	    {
+	        return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
+	    },
+	    out:function(t,b,c,d)
+	    {
+	        return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
+	    },
+	    inout:function(t,b,c,d)
+	    {
+	        if ((t /= d / 2) < 1) {
+	            return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
+	        }
+	        return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
+	    },
+	    outin:function(t,b,c,d)
+	    {
+	        if (t < d / 2) {
+	            return (c / 2) * Math.sqrt(1 - (t = (t * 2) / d - 1) * t) + b;
+	        }
+	        return -(c / 2) * (Math.sqrt(1 - (t = (t * 2 - d) / d) * t) - 1) + (b + c / 2);
+	    }
+	};
+
+
+/***/ },
+/* 27 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    in:function(t,b,c,d){
+	        return c * (t /= d) * t * t + b;
+	    },
+	    out:function(t,b,c,d){
+	        return c * ((t = t / d - 1) * t * t + 1) + b;
+	    },
+	    inout:function(t,b,c,d){
+	        return ((t /= d / 2) < 1) ? c / 2 * t * t * t + b : c / 2 * ((t -= 2) * t * t + 2) + b;
+	    },
+	    outin:function(t,b,c,d){
+	        return t < d / 2 ? c / 2 * ((t = t * 2 / d - 1) * t * t + 1) + b : c / 2 * (t = (t * 2 - d) / d) * t * t + b + c / 2;
+	    }
+	};
+
+
+/***/ },
+/* 28 */
+/***/ function(module, exports) {
+
+	var
+	    _in = function(t,b,c,d,a,p)
+	    {
+	        if (t == 0) { return b;	}
+	        if ((t /= d) == 1) { return b + c; }
+	        if (!p) { p = d * 0.3; }
+	        var s;
+	        if (!a || a < Math.abs(c)) { a = c;	s = p / 4; }
+	        else { s = p / (2 * Math.PI) * Math.asin(c / a); }
+	        return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+	    },
+	    _out = function(t,b,c,d,a,p)
+	    {
+	        if (t == 0) { return b;	}
+	        if ((t /= d) == 1) { return b + c; }
+	        if (!p) { p = d * 0.3; }
+	        var s;
+	        if (!a || a < Math.abs(c)) { a = c;	s = p / 4; }
+	        else { s = p / (2 * Math.PI) * Math.asin(c / a); }
+	        return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
+	    },
+	    _inout = function(t,b,c,d,a,p)
+	    {
+	        if (t == 0) { return b;	}
+	        if ((t /= d / 2) == 2) { return b + c; }
+	        if (!p) { p = d * (0.3 * 1.5); }
+	        var s;
+	        if (!a || a < Math.abs(c)) { a = c;	s = p / 4; }
+	        else { s = p / (2 * Math.PI) * Math.asin(c / a); }
+	        if (t < 1) {
+	            return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
+	        }
+	        return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * 0.5 + c + b;
+	    },
+	    _outin = function(t,b,c,d,a,p)
+	    {
+	        var s;
+	        c /= 2;
+	        if (t < d / 2) {
+	            if ((t *= 2) == 0) { return b; }
+	            if ((t /= d) == 1) { return b + c; }
+	            if (!p) { p = d * 0.3; }
+	            if (!a || a < Math.abs(c)) { a = c; s = p / 4; }
+	            else { s = p / (2 * Math.PI) * Math.asin(c / a); }
+	            return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
+	        }else {
+	            if ((t = t * 2 - d) == 0) { return (b + c); }
+	            if ((t /= d) == 1) { return (b + c) + c; }
+	            if (!p) { p = d * 0.3; }
+	            if (!a || a < Math.abs(c)) { a = c;	s = p / 4; }
+	            else { s = p / (2 * Math.PI) * Math.asin(c / a); }
+	            return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + (b + c);
+	        };
+	    };
+
+	module.exports = {
+	    in:function(t,b,c,d){ return _in(t,b,c,d,0,0); },
+	    out:function(t,b,c,d){ return _out(t,b,c,d,0,0); },
+	    inout:function(t,b,c,d){ return _inout(t,b,c,d,0,0); },
+	    outin:function(t,b,c,d){ return _outin(t,b,c,d,0,0); },
+	    inWith:function(a,p){ return function(t,b,c,d){ return _in(t,b,c,d,a,p); }; },
+	    outWith:function(a,p){ return function(t,b,c,d){ return _out(t,b,c,d,a,p); }; },
+	    inoutWith:function(a,p){ return function(t,b,c,d){ return _inout(t,b,c,d,a,p); }; },
+	    outinWith:function(a,p){ return function(t,b,c,d){ return _outin(t,b,c,d,a,p); }; }
+	};
+
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    in:function(t,b,c,d)
+	    {
+	        return t == 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
+	    },
+	    out:function(t,b,c,d)
+	    {
+	        return t == d ? b + c : c * (1 - Math.pow(2, -10 * t / d)) + b;
+	    },
+	    inout:function(t,b,c,d)
+	    {
+	        if (t == 0) { return b;	}
+	        if (t == d) { return b + c;	}
+	        if ((t /= d / 2.0) < 1.0) {
+	            return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
+	        }
+	        return c / 2 * (2 - Math.pow(2, -10 * --t)) + b;
+	    },
+	    outin:function(t,b,c,d)
+	    {
+	        if (t < d / 2.0) {
+	            return t * 2.0 == d ? b + c / 2.0 : c / 2.0 * (1 - Math.pow(2, -10 * t * 2.0 / d)) + b;
+	        }
+	        return (t * 2.0 - d) == 0 ? b + c / 2.0 : c / 2.0 * Math.pow(2, 10 * ((t * 2 - d) / d - 1)) + b + c / 2.0;
+	    }
+	};
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    in:function(t,b,c,d)
+	    {
+	        return c * (t /= d) * t + b;
+	    },
+	    out:function(t,b,c,d)
+	    {
+	        return -c * (t /= d) * (t - 2) + b;
+	    },
+	    inout:function(t,b,c,d)
+	    {
+	        if ((t /= d / 2) < 1) {
+	            return c / 2 * t * t + b;
+	        }
+	        return -c / 2 * ((--t) * (t - 2) - 1) + b;
+	    },
+	    outin:function(t,b,c,d)
+	    {
+	        if (t < d / 2) {
+	            return -(c / 2) * (t = (t * 2 / d)) * (t - 2) + b;
+	        }
+	        return (c / 2) * (t = (t * 2 - d) / d) * t + (b + c / 2);
+	    }
+	};
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    in:function(t,b,c,d)
+	    {
+	        return c * (t /= d) * t * t * t + b;
+	    },
+	    out:function(t,b,c,d)
+	    {
+	        return -c * ((t = t / d - 1) * t * t * t - 1) + b;
+	    },
+	    inout:function(t,b,c,d)
+	    {
+	        if ((t /= d / 2) < 1) {
+	            return c / 2 * t * t * t * t + b;
+	        }
+	        return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
+	    },
+	    outin:function(t,b,c,d)
+	    {
+	        if (t < d / 2) {
+	            return -(c / 2) * ((t = (t * 2) / d - 1) * t * t * t - 1) + b;
+	        }
+	        return (c / 2) * (t = (t * 2 - d) / d) * t * t * t + (b + c / 2);
+	    }
+	};
+
+
+/***/ },
+/* 32 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    in:function(t,b,c,d)
+	    {
+	        return c * (t /= d) * t * t * t * t + b;
+	    },
+	    out:function(t,b,c,d)
+	    {
+	        return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
+	    },
+	    inout:function(t,b,c,d)
+	    {
+	        if ((t /= d / 2) < 1) {
+	            return c / 2 * t * t * t * t * t + b;
+	        }
+	        return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
+	    },
+	    outin:function(t,b,c,d)
+	    {
+	        if (t < d / 2) {
+	            return (c / 2) * ((t = (t * 2) / d - 1) * t * t * t * t + 1) + b;
+	        }
+	        return (c / 2) * (t = (t * 2 - d) / d) * t * t * t * t + (b + c / 2);
+	    }
+	};
+
+
+/***/ },
+/* 33 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	    in:function(t,b,c,d)
+	    {
+	        return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
+	    },
+	    out:function(t,b,c,d)
+	    {
+	        return c * Math.sin(t / d * (Math.PI / 2)) + b;
+	    },
+	    inout:function(t,b,c,d)
+	    {
+	        return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
+	    },
+	    outin:function(t,b,c,d)
+	    {
+	        if (t < d / 2) {
+	            return (c / 2) * Math.sin((t * 2) / d * (Math.PI / 2)) + b;
+	        }
+	        return -(c / 2) * Math.cos((t * 2 - d) / d * (Math.PI / 2)) + (c / 2) + (b + c / 2);
+	    }
+	};
+
+
+/***/ },
+/* 34 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var
+	    loop = __webpack_require__(35),
 	    noop = __webpack_require__(3),
 	    inherit = __webpack_require__(8),
-	    Core = __webpack_require__(25),
-	    easing = __webpack_require__(26),
+	    Core = __webpack_require__(36),
+	    easing = __webpack_require__(23),
 
 	    Tween = function (tar, to, from, time, ease) {
 	        if(!to && !from){ throw 'invalid parameter!'; return; }
@@ -276,7 +771,7 @@
 	        this.t = 0;
 	        this.len = 0;
 	        this.du = time || 0;
-	        this.ease = (typeof ease === 'string' ? easing[ease.toLowerCase()] : ease) || easing.Linear;
+	        this.ease = ease || easing.Linear;
 
 	        this.__tws = noop;
 	        this.__fixes = noop;
@@ -438,7 +933,7 @@
 	module.exports = inherit(Tween, Core);
 
 /***/ },
-/* 24 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -465,11 +960,11 @@
 	};
 
 /***/ },
-/* 25 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var
-	    loop = __webpack_require__(24),
+	    loop = __webpack_require__(35),
 	    noop = __webpack_require__(3),
 	    step = __webpack_require__(11),
 
@@ -533,487 +1028,11 @@
 	module.exports = Core;
 
 /***/ },
-/* 26 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Back = __webpack_require__(27),
-	    Bounce = __webpack_require__(28),
-	    Circ = __webpack_require__(29),
-	    Cubic = __webpack_require__(30),
-	    Elastic = __webpack_require__(31),
-	    Expo = __webpack_require__(32),
-	    Quad = __webpack_require__(33),
-	    Quart = __webpack_require__(34),
-	    Quint = __webpack_require__(35),
-	    Sine = __webpack_require__(36);
-
-	module.exports = {
-	    Linear: function(t,b,c,d){ return c * t / d + b; },
-
-	    backin: Back.in,
-	    backout: Back.out,
-	    backinout: Back.inout,
-	    backoutin: Back.outin,
-	    backinwith: Back.inWith,
-	    backoutwith: Back.outWith,
-	    backinoutwith: Back.inoutWith,
-	    backOutinwith: Back.outinWith,
-
-	    bouncein: Bounce.in,
-	    bounceout: Bounce.out,
-	    bounceinout: Bounce.inout,
-	    bounceoutin: Bounce.outin,
-
-	    circin: Circ.in,
-	    circout: Circ.out,
-	    circinout: Circ.inout,
-	    circoutin: Circ.outin,
-
-	    cubicin: Cubic.in,
-	    cubicout: Cubic.out,
-	    cubiciniut: Cubic.inout,
-	    cubicouton: Cubic.outin,
-
-	    elasticin: Elastic.in,
-	    elasticout: Elastic.out,
-	    elasticinout: Elastic.inout,
-	    elasticoutin: Elastic.outin,
-	    elasticinwith: Elastic.inWith,
-	    elasticoutwith: Elastic.outWith,
-	    elasticinoutwith: Elastic.inoutWith,
-	    elasticoutinwith: Elastic.outinWith,
-
-	    expoin: Expo.in,
-	    expoout: Expo.out,
-	    expoinout: Expo.inout,
-	    expooutin: Expo.outin,
-
-	    quadin: Quad.in,
-	    quadout: Quad.out,
-	    quadinout: Quad.inout,
-	    quadoutin: Quad.outin,
-
-	    quartin: Quart.in,
-	    quartout: Quart.out,
-	    quartinout: Quart.inout,
-	    quartoutin: Quart.outin,
-
-	    quintin: Quint.in,
-	    quintout: Quint.out,
-	    quintinout: Quint.inout,
-	    quintoutin: Quint.outin,
-
-	    sinein: Sine.in,
-	    sineout: Sine.out,
-	    sineinout: Sine.inout,
-	    sineoutin: Sine.outin
-	};
-
-
-/***/ },
-/* 27 */
-/***/ function(module, exports) {
-
-	var
-	    _in = function(t, b, c, d, s)
-	    {
-	        return c * (t /= d) * t * ((s + 1) * t - s) + b;
-	    },
-	    _out = function(t, b, c, d, s)
-	    {
-	        return c * ((t = t / d - 1) * t * ((s + 1) * t + s) + 1) + b;
-	    },
-	    _inout = function(t, b, c, d, s)
-	    {
-	        if ((t /= d / 2) < 1) {
-	            return c / 2 * (t * t * (((s * 1.525) + 1) * t - s * 1.525)) + b;
-	        }
-	        return c / 2 * ((t -= 2) * t * (((s * 1.525) + 1) * t + s * 1.525) + 2) + b;
-	    },
-	    _outin = function(t, b, c, d, s)
-	    {
-	        if (t < d / 2) {
-	            return (c / 2) * ((t = (t * 2) / d - 1) * t * ((s + 1) * t + s) + 1) + b;
-	        }
-	        return (c / 2) * (t = (t * 2 - d) / d) * t * ((s + 1) * t - s) + (b + c / 2);
-	    };
-
-	module.exports = {
-	    in:function(t,b,c,d){ return _in(t,b,c,d,1.70158); },
-	    out:function(t,b,c,d){ return _out(t,b,c,d,1.70158); },
-	    inout:function(t,b,c,d){ return _inout(t,b,c,d,1.70158); },
-	    outin:function(t,b,c,d){ return _outin(t,b,c,d,1.70158); },
-	    inWith:function(s){ return function(t,b,c,d){ return _in(t,b,c,d,s); }; },
-	    outWith:function(s){ return function(t,b,c,d){ return _out(t,b,c,d,s); }; },
-	    inoutWith:function(s){ return function(t,b,c,d){ return _inout(t,b,c,d,s); }; },
-	    outinWith:function(s){ return function(t,b,c,d){ return _outin(t,b,c,d,s); }; }
-	};
-
-
-/***/ },
-/* 28 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    in:function(t,b,c,d)
-	    {
-	        if ((t = (d - t) / d) < (1 / 2.75)) {
-	            return c - (c * (7.5625 * t * t)) + b;
-	        }
-	        if (t < (2 / 2.75)) {
-	            return c - (c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75)) + b;
-	        }
-	        if (t < (2.5 / 2.75)) {
-	            return c - (c * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375)) + b;
-	        }
-	        return c - (c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375)) + b;
-	    },
-	    out:function(t,b,c,d)
-	    {
-	        if ((t /= d) < (1 / 2.75)) {
-	            return c * (7.5625 * t * t) + b;
-	        }
-	        if (t < (2 / 2.75)) {
-	            return c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75) + b;
-	        }
-	        if (t < (2.5 / 2.75)) {
-	            return c * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375) + b;
-	        }
-	        return c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375) + b;
-	    },
-	    inout:function(t,b,c,d)
-	    {
-	        if (t < d / 2) {
-	            if ((t = (d - t * 2) / d) < (1 / 2.75)) {
-	                return (c - (c * (7.5625 * t * t))) * 0.5 + b;
-	            }
-	            if (t < (2 / 2.75)) {
-	                return (c - (c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75))) * 0.5 + b;
-	            }
-	            if (t < (2.5 / 2.75)) {
-	                return (c - (c * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375))) * 0.5 + b;
-	            }
-	            return (c - (c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375))) * 0.5 + b;
-	        }
-	        else {
-	            if ((t = (t * 2 - d) / d) < (1 / 2.75)) {
-	                return (c * (7.5625 * t * t)) * 0.5 + c * 0.5 + b;
-	            }
-	            if (t < (2 / 2.75)) {
-	                return (c * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75)) * 0.5 + c * 0.5 + b;
-	            }
-	            if (t < (2.5 / 2.75)) {
-	                return (c * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375)) * 0.5 + c * 0.5 + b;
-	            }
-	            return (c * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375)) * 0.5 + c * 0.5 + b;
-	        }
-	    },
-	    outin:function(t,b,c,d)
-	    {
-	        if (t < d / 2) {
-	            if ((t = (t * 2) / d) < (1 / 2.75)) {
-	                return (c / 2) * (7.5625 * t * t) + b;
-	            }
-	            if (t < (2 / 2.75)) {
-	                return (c / 2) * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75) + b;
-	            }
-	            if (t < (2.5 / 2.75)) {
-	                return (c / 2) * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375) + b;
-	            }
-	            return (c / 2) * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375) + b;
-	        }
-	        else {
-	            if ((t = (d - (t * 2 - d)) / d) < (1 / 2.75)) {
-	                return (c / 2) - ((c / 2) * (7.5625 * t * t)) + (b + c / 2);
-	            }
-	            if (t < (2 / 2.75)) {
-	                return (c / 2) - ((c / 2) * (7.5625 * (t -= (1.5 / 2.75)) * t + 0.75)) + (b + c / 2);
-	            }
-	            if (t < (2.5 / 2.75)) {
-	                return (c / 2) - ((c / 2) * (7.5625 * (t -= (2.25 / 2.75)) * t + 0.9375)) + (b + c / 2);
-	            }
-	            return (c / 2) - ((c / 2) * (7.5625 * (t -= (2.625 / 2.75)) * t + 0.984375)) + (b + c / 2);
-	        }
-	    }
-	};
-
-
-/***/ },
-/* 29 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    in:function(t,b,c,d)
-	    {
-	        return -c * (Math.sqrt(1 - (t /= d) * t) - 1) + b;
-	    },
-	    out:function(t,b,c,d)
-	    {
-	        return c * Math.sqrt(1 - (t = t / d - 1) * t) + b;
-	    },
-	    inout:function(t,b,c,d)
-	    {
-	        if ((t /= d / 2) < 1) {
-	            return -c / 2 * (Math.sqrt(1 - t * t) - 1) + b;
-	        }
-	        return c / 2 * (Math.sqrt(1 - (t -= 2) * t) + 1) + b;
-	    },
-	    outin:function(t,b,c,d)
-	    {
-	        if (t < d / 2) {
-	            return (c / 2) * Math.sqrt(1 - (t = (t * 2) / d - 1) * t) + b;
-	        }
-	        return -(c / 2) * (Math.sqrt(1 - (t = (t * 2 - d) / d) * t) - 1) + (b + c / 2);
-	    }
-	};
-
-
-/***/ },
-/* 30 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    in:function(t,b,c,d){
-	        return c * (t /= d) * t * t + b;
-	    },
-	    out:function(t,b,c,d){
-	        return c * ((t = t / d - 1) * t * t + 1) + b;
-	    },
-	    inout:function(t,b,c,d){
-	        return ((t /= d / 2) < 1) ? c / 2 * t * t * t + b : c / 2 * ((t -= 2) * t * t + 2) + b;
-	    },
-	    outin:function(t,b,c,d){
-	        return t < d / 2 ? c / 2 * ((t = t * 2 / d - 1) * t * t + 1) + b : c / 2 * (t = (t * 2 - d) / d) * t * t + b + c / 2;
-	    }
-	};
-
-
-/***/ },
-/* 31 */
-/***/ function(module, exports) {
-
-	var
-	    _in = function(t,b,c,d,a,p)
-	    {
-	        if (t == 0) { return b;	}
-	        if ((t /= d) == 1) { return b + c; }
-	        if (!p) { p = d * 0.3; }
-	        var s;
-	        if (!a || a < Math.abs(c)) { a = c;	s = p / 4; }
-	        else { s = p / (2 * Math.PI) * Math.asin(c / a); }
-	        return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-	    },
-	    _out = function(t,b,c,d,a,p)
-	    {
-	        if (t == 0) { return b;	}
-	        if ((t /= d) == 1) { return b + c; }
-	        if (!p) { p = d * 0.3; }
-	        var s;
-	        if (!a || a < Math.abs(c)) { a = c;	s = p / 4; }
-	        else { s = p / (2 * Math.PI) * Math.asin(c / a); }
-	        return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
-	    },
-	    _inout = function(t,b,c,d,a,p)
-	    {
-	        if (t == 0) { return b;	}
-	        if ((t /= d / 2) == 2) { return b + c; }
-	        if (!p) { p = d * (0.3 * 1.5); }
-	        var s;
-	        if (!a || a < Math.abs(c)) { a = c;	s = p / 4; }
-	        else { s = p / (2 * Math.PI) * Math.asin(c / a); }
-	        if (t < 1) {
-	            return -0.5 * (a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + b;
-	        }
-	        return a * Math.pow(2, -10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p) * 0.5 + c + b;
-	    },
-	    _outin = function(t,b,c,d,a,p)
-	    {
-	        var s;
-	        c /= 2;
-	        if (t < d / 2) {
-	            if ((t *= 2) == 0) { return b; }
-	            if ((t /= d) == 1) { return b + c; }
-	            if (!p) { p = d * 0.3; }
-	            if (!a || a < Math.abs(c)) { a = c; s = p / 4; }
-	            else { s = p / (2 * Math.PI) * Math.asin(c / a); }
-	            return a * Math.pow(2, -10 * t) * Math.sin((t * d - s) * (2 * Math.PI) / p) + c + b;
-	        }else {
-	            if ((t = t * 2 - d) == 0) { return (b + c); }
-	            if ((t /= d) == 1) { return (b + c) + c; }
-	            if (!p) { p = d * 0.3; }
-	            if (!a || a < Math.abs(c)) { a = c;	s = p / 4; }
-	            else { s = p / (2 * Math.PI) * Math.asin(c / a); }
-	            return -(a * Math.pow(2, 10 * (t -= 1)) * Math.sin((t * d - s) * (2 * Math.PI) / p)) + (b + c);
-	        };
-	    };
-
-	module.exports = {
-	    in:function(t,b,c,d){ return _in(t,b,c,d,0,0); },
-	    out:function(t,b,c,d){ return _out(t,b,c,d,0,0); },
-	    inout:function(t,b,c,d){ return _inout(t,b,c,d,0,0); },
-	    outin:function(t,b,c,d){ return _outin(t,b,c,d,0,0); },
-	    inWith:function(a,p){ return function(t,b,c,d){ return _in(t,b,c,d,a,p); }; },
-	    outWith:function(a,p){ return function(t,b,c,d){ return _out(t,b,c,d,a,p); }; },
-	    inoutWith:function(a,p){ return function(t,b,c,d){ return _inout(t,b,c,d,a,p); }; },
-	    outinWith:function(a,p){ return function(t,b,c,d){ return _outin(t,b,c,d,a,p); }; }
-	};
-
-
-/***/ },
-/* 32 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    in:function(t,b,c,d)
-	    {
-	        return t == 0 ? b : c * Math.pow(2, 10 * (t / d - 1)) + b;
-	    },
-	    out:function(t,b,c,d)
-	    {
-	        return t == d ? b + c : c * (1 - Math.pow(2, -10 * t / d)) + b;
-	    },
-	    inout:function(t,b,c,d)
-	    {
-	        if (t == 0) { return b;	}
-	        if (t == d) { return b + c;	}
-	        if ((t /= d / 2.0) < 1.0) {
-	            return c / 2 * Math.pow(2, 10 * (t - 1)) + b;
-	        }
-	        return c / 2 * (2 - Math.pow(2, -10 * --t)) + b;
-	    },
-	    outin:function(t,b,c,d)
-	    {
-	        if (t < d / 2.0) {
-	            return t * 2.0 == d ? b + c / 2.0 : c / 2.0 * (1 - Math.pow(2, -10 * t * 2.0 / d)) + b;
-	        }
-	        return (t * 2.0 - d) == 0 ? b + c / 2.0 : c / 2.0 * Math.pow(2, 10 * ((t * 2 - d) / d - 1)) + b + c / 2.0;
-	    }
-	};
-
-
-/***/ },
-/* 33 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    in:function(t,b,c,d)
-	    {
-	        return c * (t /= d) * t + b;
-	    },
-	    out:function(t,b,c,d)
-	    {
-	        return -c * (t /= d) * (t - 2) + b;
-	    },
-	    inout:function(t,b,c,d)
-	    {
-	        if ((t /= d / 2) < 1) {
-	            return c / 2 * t * t + b;
-	        }
-	        return -c / 2 * ((--t) * (t - 2) - 1) + b;
-	    },
-	    outin:function(t,b,c,d)
-	    {
-	        if (t < d / 2) {
-	            return -(c / 2) * (t = (t * 2 / d)) * (t - 2) + b;
-	        }
-	        return (c / 2) * (t = (t * 2 - d) / d) * t + (b + c / 2);
-	    }
-	};
-
-
-/***/ },
-/* 34 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    in:function(t,b,c,d)
-	    {
-	        return c * (t /= d) * t * t * t + b;
-	    },
-	    out:function(t,b,c,d)
-	    {
-	        return -c * ((t = t / d - 1) * t * t * t - 1) + b;
-	    },
-	    inout:function(t,b,c,d)
-	    {
-	        if ((t /= d / 2) < 1) {
-	            return c / 2 * t * t * t * t + b;
-	        }
-	        return -c / 2 * ((t -= 2) * t * t * t - 2) + b;
-	    },
-	    outin:function(t,b,c,d)
-	    {
-	        if (t < d / 2) {
-	            return -(c / 2) * ((t = (t * 2) / d - 1) * t * t * t - 1) + b;
-	        }
-	        return (c / 2) * (t = (t * 2 - d) / d) * t * t * t + (b + c / 2);
-	    }
-	};
-
-
-/***/ },
-/* 35 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    in:function(t,b,c,d)
-	    {
-	        return c * (t /= d) * t * t * t * t + b;
-	    },
-	    out:function(t,b,c,d)
-	    {
-	        return c * ((t = t / d - 1) * t * t * t * t + 1) + b;
-	    },
-	    inout:function(t,b,c,d)
-	    {
-	        if ((t /= d / 2) < 1) {
-	            return c / 2 * t * t * t * t * t + b;
-	        }
-	        return c / 2 * ((t -= 2) * t * t * t * t + 2) + b;
-	    },
-	    outin:function(t,b,c,d)
-	    {
-	        if (t < d / 2) {
-	            return (c / 2) * ((t = (t * 2) / d - 1) * t * t * t * t + 1) + b;
-	        }
-	        return (c / 2) * (t = (t * 2 - d) / d) * t * t * t * t + (b + c / 2);
-	    }
-	};
-
-
-/***/ },
-/* 36 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	    in:function(t,b,c,d)
-	    {
-	        return -c * Math.cos(t / d * (Math.PI / 2)) + c + b;
-	    },
-	    out:function(t,b,c,d)
-	    {
-	        return c * Math.sin(t / d * (Math.PI / 2)) + b;
-	    },
-	    inout:function(t,b,c,d)
-	    {
-	        return -c / 2 * (Math.cos(Math.PI * t / d) - 1) + b;
-	    },
-	    outin:function(t,b,c,d)
-	    {
-	        if (t < d / 2) {
-	            return (c / 2) * Math.sin((t * 2) / d * (Math.PI / 2)) + b;
-	        }
-	        return -(c / 2) * Math.cos((t * 2 - d) / d * (Math.PI / 2)) + (c / 2) + (b + c / 2);
-	    }
-	};
-
-
-/***/ },
 /* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var inherit = __webpack_require__(8),
-	    Core = __webpack_require__(25),
+	    Core = __webpack_require__(36),
 	    Serial = function (args) {
 	        Core.call(this);
 
@@ -1069,7 +1088,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var inherit = __webpack_require__(8),
-	    Core = __webpack_require__(25),
+	    Core = __webpack_require__(36),
 	    Parallel = function (args) {
 	        Core.call(this);
 	        this.list = args;
@@ -1132,8 +1151,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var inherit = __webpack_require__(8),
-	    loop = __webpack_require__(24),
-	    Core = __webpack_require__(25),
+	    loop = __webpack_require__(35),
+	    Core = __webpack_require__(36),
 
 	    Delay = function (tw, delay) {
 	        Core.call(this);

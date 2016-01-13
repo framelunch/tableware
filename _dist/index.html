@@ -16,8 +16,9 @@
     obon.appendTo('body', {w:300, h:300}).append(
         obon.view({
             id: 'rect',
+            color: '#00ff00',
             draw: function (c) {
-                c.fillStyle = '#00ff00';
+                c.fillStyle = this.color;
                 c.fillRect(0, 0, 100, 100);
             }
         })
@@ -25,23 +26,24 @@
     obon('#canvas').append(
         obon.view({
             draw: function (c) {
-                c.fillStyle = 'rgba(100, 100, 0, 0.5)';
+                c.fillStyle = this.color;
                 c.fillRect(0, 0, 100, 100);
                 console.log(c.fillStyle);
             }
         })
     );
 
-    var rect = obon.select('rect');
+    o.bon()
 
+    var rect = obon.select('rect');
     otama.delay(
         otama.serial(
-            otama.to(rect, {x: 200}, 1000, 'elasticOut'),
-            otama.to(rect, {r: obon.degree(90)}, 800, 'quartInOut'),
-            otama.from(rect, {r: obon.degree(90)}, 800, 'quartInOut'),
+            otama.to(rect, {x: 200}, 1000, otama.ElasticOut),
+            otama.to(rect, {r: obon.degree(90)}, 800, otama.QuartInOut),
+            otama.from(rect, {r: obon.degree(90)}, 800, otama.QuartInOut),
             otama.parallel(
-                otama.from(rect, {x: 200}, 800, 'backInOut'),
-                otama.to(rect, {sx: 0.5, sy: 0.5}, 800, 'quadInOut')
+                otama.from(rect, {x: 200}, 800, otama.BackInOut),
+                otama.to(rect, {sx: 0.5, sy: 0.5}, 800, otama.BackInOut)
             )
         ),
         1000
