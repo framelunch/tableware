@@ -24,7 +24,7 @@ var
             };
 
         oC.appendTo('body', {id:'test', w:300, h:3000}).append(
-            oC.sprite({x:10, y:10, sx:2, r:oC.degree(10)}).append(
+            oC.sprite({x:10, y:10, sx:2, deg:10}).append(
                 oC.responder(button('#00ff00'), {
                     color: '#00ff00',
                     bounds:{w:50, h:50},
@@ -35,16 +35,15 @@ var
             )
         );
 
-        console.log(window);
-
         oA('#dom1', {sx:3});
         oA.serial(
-            oA.to('#dom1', {x:10, y:50, r:oC.degree(10), sx:2}, 800, oA.QuartInOut),
-            oA.to('#dom1', {x:100, r:oC.degree(0)}, 800, oA.QuartInOut),
+            oA.to('#dom1', {x:10, y:50, deg:10, sx:2}, 800, oA.QuartInOut),
+            oA.to('#dom1', {x:100, degree:0}, 800, oA.QuartInOut),
             oA.to('#dom1', {css: {height: 400}}, 800, oA.QuartInOut),
             oA.to('#path1', {attr: {'stroke-width': 30}}, 800, oA.QuintOut),
-            oA.to('#svg1', {css: {width:100}}, 800, oA.ElasticOut),
-            oA.from(window, {scrollTop: 2000}, 1000, oA.QuartOut)
+            oA.to('#svg1', {css: {width: 100}}, 800, oA.ElasticOut),
+            oA.from(window, {scrollTop: 2000}, 1000, oA.QuartOut),
+            oA.from('#overflow', {scrollTop: 200}, 1000, oA.QuintOut)
         ).play();
     };
 
