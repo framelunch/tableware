@@ -1,2 +1,2 @@
-var obon = require('obon/');
+var obon = require('../lib/anim/');
 window.obon = obon;

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="obon/obon.min.js"></script>
-    <script src="otama/otama.min.js"></script>
+    <script src="zaru/zaru.min.js"></script>
 </head>
 <body>
 
@@ -13,8 +13,8 @@
 </div>
 
 <script>
-    obon.appendTo('body', {w:300, h:300}).append(
-        obon.view({
+    zaru.appendTo('body', {w:300, h:300}).append(
+        zaru.view({
             id: 'rect',
             color: '#00ff00',
             draw: function (c) {
@@ -23,32 +23,28 @@
             }
         })
     );
-    obon('#canvas').append(
-        obon.view({
+    zaru('#canvas').append(
+        zaru.view({
             draw: function (c) {
                 c.fillStyle = this.color;
                 c.fillRect(0, 0, 100, 100);
-                console.log(c.fillStyle);
             }
         })
     );
 
-    o.bon()
-
-    var rect = obon.select('rect');
-    otama.delay(
-        otama.serial(
-            otama.to(rect, {x: 200}, 1000, otama.ElasticOut),
-            otama.to(rect, {r: obon.degree(90)}, 800, otama.QuartInOut),
-            otama.from(rect, {r: obon.degree(90)}, 800, otama.QuartInOut),
-            otama.parallel(
-                otama.from(rect, {x: 200}, 800, otama.BackInOut),
-                otama.to(rect, {sx: 0.5, sy: 0.5}, 800, otama.BackInOut)
+    var rect = zaru.select('rect');
+    obon.delay(
+        obon.serial(
+            obon.to(rect, {x: 200}, 1000, obon.ElasticOut),
+            obon.to(rect, {degree: 90, color: '#ff0000'}, 800, obon.QuartInOut),
+            obon.to(rect, {degree: 0, color: 'rgba(0, 0, 0, 0.2)'}, 800, obon.QuartInOut),
+            obon.parallel(
+                obon.to(rect, {x: 0, color: '#0000ff'}, 800, obon.BackInOut),
+                obon.to(rect, {sx: 0.5, sy: 0.5}, 800, obon.BackInOut)
             )
         ),
         1000
     ).play();
-
 
 </script>
 </body>

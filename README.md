@@ -2,10 +2,10 @@
 
 Javascript library by FRAME LUNCH .inc
 
-## obon
+## zaru
 
 You can use canvas very easy.
 
-## otama
+## obon
 
 Animation everything.
