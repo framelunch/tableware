@@ -1,7 +1,7 @@
 # tableware project
 
 This project is environment to develop Javascript Library by FRAME LUNCH.   
-Now We exports below. 
+Now we exports below. 
 
 * zaru: You can use canvas very easy.
 * obon: Animation everything.
