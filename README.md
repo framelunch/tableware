@@ -1,11 +1,47 @@
-# tableware
+# tableware project
 
-Javascript library by FRAME LUNCH .inc
+This project is environment to develop Javascript Library by FRAME LUNCH.   
+Now We exports below. 
 
-## zaru
+* zaru: You can use canvas very easy.
+* obon: Animation everything.
 
-You can use canvas very easy.
+## Importance Technology
+* [Gulp](http://gulpjs.com/)
+* [Webpack](https://webpack.github.io/)
+* [EJS](http://www.embeddedjs.com/)
+* [Sass](http://sass-lang.com/)
 
-## obon
+## Directory Layout
+    .
+    |- /_dist/            # exports javascript library
+    |- /assets/           # assets files about img, font..
+    |- /common/           # common files about sass, ejs..
+    |- /ejs/              # ejs files
+    |- /gulp/         
+    |    |- /config.js    # configuration of gulp
+    |    |- /tasks/       # gulp tasks
+    |    |- /
+    |- /js/               # js files. these are as entry point of webpack. 
+    |- /lib/              # javascript library
+    |- /sass/             # sass files
+    |- .gitignore
+    |- gulpfile.js
+    |- bower.json
+    |- package.json
+    |- README.md
 
-Animation everything.
+## Getting Started
+
+    npm install
+    bower install
+    gulp
+    
+Then browser will open. and can use auto sync.   
+And exports js library for distribution.   
+Command is below.
+
+    gulp dist
+
+## Updates
+* v0.1.0: first commit.
