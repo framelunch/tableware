@@ -25,13 +25,22 @@ var
 
         oC.appendTo('body', {id:'test', w:300, h:3000}).append(
             oC.sprite({x:10, y:10, sx:2, degree:10}).append(
-                oC.responder(button('#00ff00'), {
+                oC.responder(button(), {
                     color: '#00ff00',
                     bounds:{w:50, h:50},
                     click: function () {
                         console.log('click!');
                     }
                 })
+            ),
+            oC.sprite({id:'sp', x:20, y:20})
+        );
+        oC('sp').append(
+            oC.sprite({x:50, y:50, sx:3}).append(
+                oC.view({draw: function(c){
+                    c.fillStyle = '#ff0000';
+                    c.fillRect(0, 0, 50, 50);
+                }})
             )
         );
 
