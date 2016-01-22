@@ -45,12 +45,14 @@ var
         );
 
         oA('#dom1', {sx:3});
+        oA('#dom1', {hidden: true, css: {opacity: 0.4}});
+
         oA.serial(
-            oA.to('#dom1', {x:10, y:50, degree:10, sx:2}, 800, oA.QuartInOut),
+            oA.to('#dom1', {hidden: false, x:10, y:50, degree:10, sx:2}, 800, oA.QuartInOut),
             oA.to('#dom1', {x:100, degree:0}, 800, oA.QuartInOut),
             oA.to('#dom1', {css: {height: 200}}, 800, oA.QuartInOut),
             oA.to('#svg1', {css: {width: 100}}, 800, oA.ElasticOut),
-            //oA.from(window, {scrollTop: 2000}, 1000, oA.QuartOut),
+            oA.from(window, {scrollTop: 2000}, 1000, oA.QuartOut),
             oA.from('#overflow', {scrollTop: 200}, 1000, oA.QuintOut)
         ).play();
 
