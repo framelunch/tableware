@@ -1,4 +1,5 @@
 var
+    o = require('o/'),
     oC = require('canvas/'),
     oA = require("anim/"),
 
@@ -44,16 +45,33 @@ var
             )
         );
 
-        oA('#dom1', {sx:3});
-        oA('#dom1', {hidden: true, css: {opacity: 0.4}});
+        oC('sp').set({sy: 5});
+
+        var oDom1 = o('#dom1', {hidden: true}),
+            oWin = o(window),
+            oDiv = o('div', {sx: 3});
+
+        oDom1.addClass('class2');
+
+        oDom1.append(
+            oDiv,
+            o('div', {id: 'test'}),
+            o('div', {sy: 2})
+        );
+        oDom1.append('<div id="b"></div>');
+
+        oDom1.set({sx:3, degree: 45});
+        oDom1.set({hidden: false, css: {opacity: 0.4}});
 
         oA.serial(
-            oA.to('#dom1', {hidden: false, x:10, y:50, degree:10, sx:2}, 800, oA.QuartInOut),
-            oA.to('#dom1', {x:100, degree:0}, 800, oA.QuartInOut),
-            oA.to('#dom1', {css: {height: 200}}, 800, oA.QuartInOut),
+            oA.to(oDom1, {x:10, y:50, degree:10, sx:2}, 800, oA.QuartInOut),
+            oA.to(oDom1, {x:100, degree:0, addClass:'class3'}, 800, oA.QuartInOut),
+            oA.to(oDom1, {css: {height: 200, background: '#00ff00'}}, 800, oA.QuartInOut),
             oA.to('#svg1', {css: {width: 100}}, 800, oA.ElasticOut),
             oA.from(window, {scrollTop: 2000}, 1000, oA.QuartOut),
-            oA.from('#overflow', {scrollTop: 200}, 1000, oA.QuintOut)
+            oA.to(oWin, {scrollTop: 10}, 500),
+            oA.from('#overflow', {scrollTop: 200}, 1000, oA.QuintOut),
+            oA.to(oDom1, {hidden: false})
         ).play();
 
 
