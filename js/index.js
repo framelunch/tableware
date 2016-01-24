@@ -71,7 +71,7 @@ var
             oA.from(window, {scrollTop: 2000}, 1000, oA.QuartOut),
             oA.to(oWin, {scrollTop: 10}, 500),
             oA.from('#overflow', {scrollTop: 200}, 1000, oA.QuintOut),
-            oA.to(oDom1, {hidden: false})
+            oA.to('#overflow', {scrollTop: 20, css:{overflow:'hidden'}}, 1000)
         ).play();
 
 
