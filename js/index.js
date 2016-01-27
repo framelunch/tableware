@@ -49,19 +49,18 @@ var
 
         var oDom1 = o('#dom1', {hidden: true}),
             oWin = o(window),
-            oDiv = o('div', {sx: 3});
+            oDiv = o('<div>');
 
         oDom1.addClass('class2');
 
         oDom1.append(
             oDiv,
-            o('div', {id: 'test'}),
-            o('div', {sy: 2})
+            o('<div>', {id: 'aaa'})
         );
         oDom1.append('<div id="b"></div>');
+        oDom1.hidden(false);
 
-        oDom1.set({sx:3, degree: 45});
-        oDom1.set({hidden: false, css: {opacity: 0.4}});
+        console.log(o('aaa'));
 
         oA.serial(
             oA.to(oDom1, {x:10, y:50, degree:10, sx:2}, 800, oA.QuartInOut),
