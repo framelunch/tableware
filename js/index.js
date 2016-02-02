@@ -3,6 +3,8 @@ var
     oC = require('canvas/'),
     oA = require("anim/"),
 
+    getStyle = require('utils/getStyle'),
+
     init = function () {
         var
             button = function(){
@@ -45,7 +47,7 @@ var
             )
         );
 
-        oC('sp').set({sy: 5});
+        oC('sp').attr({sy: 5});
 
         var oDom1 = o('#dom1', {hidden: true}),
             oWin = o(window),
@@ -62,15 +64,21 @@ var
 
         console.log(o('aaa'));
 
+        console.log(333, getStyle(oDom1[0], 'border-top-color'));
+        oDom1.css({'background-color': '#ff0000'});
+        console.log(1234, getStyle(o('#dom1')[0], 'background-color'));
+
         oA.serial(
+            //oA.to(oDom1, {x:10, y:10}),
             oA.to(oDom1, {x:10, y:50, degree:10, sx:2}, 800, oA.QuartInOut),
-            oA.to(oDom1, {x:100, degree:0, addClass:'class3'}, 800, oA.QuartInOut),
-            oA.to(oDom1, {css: {height: 200, background: '#00ff00'}}, 800, oA.QuartInOut),
-            oA.to('#svg1', {css: {width: 100}}, 800, oA.ElasticOut),
+            oA.to(oDom1, {x:100, degree:0}, 800, oA.QuartInOut),
+            oA.to(oDom1, {height:10, css:{'border-color': '#00ffff'}}, 800, oA.QuartInOut),
+            oA.to('#svg1', {width:100}, 800, oA.ElasticOut),
             oA.from(window, {scrollTop: 2000}, 1000, oA.QuartOut),
             oA.to(oWin, {scrollTop: 10}, 500),
             oA.from('#overflow', {scrollTop: 200}, 1000, oA.QuintOut),
-            oA.to('#overflow', {scrollTop: 20, css:{overflow:'hidden'}}, 1000)
+            oA.to('#overflow', {scrollTop: 20, css:{overflow:'hidden'}}, 1000),
+            oA.to('#of2', {opacity:0.2}, 500)
         ).play();
 
 
