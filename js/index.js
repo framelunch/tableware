@@ -1,7 +1,7 @@
 var
-    o = require('o/'),
-    oC = require('canvas/'),
-    oA = require("anim/"),
+    o = require('o'),
+    oC = require('canvas'),
+    oA = require("anim"),
 
     getStyle = require('utils/getStyle'),
 

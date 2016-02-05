@@ -1,2 +1,2 @@
-var zaru = require('../lib/canvas/');
+var zaru = require('../lib/canvas');
 window.zaru = zaru;
