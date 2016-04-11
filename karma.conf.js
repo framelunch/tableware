@@ -1,5 +1,6 @@
-// Karma configuration
-// Generated on Sun Mar 27 2016 09:14:34 GMT+0900 (JST)
+'use strict';
+
+var path = require('path');
 
 module.exports = function(config) {
     config.set({
@@ -7,15 +8,35 @@ module.exports = function(config) {
         browsers: ['Chrome'],
         frameworks: ['jasmine'],
         files: [
-            '.tmp/**/*.html',
-            //'.tmp/css/**/*.css',
-            '.tmp/js/**/_spec.js',
-            'test/**/*.spec.js'
+            'test/_spec.js'
         ],
         exclude: [],
         preprocessors: {
-            '.tmp/js/**/*.js': ['sourcemap'],
+            'test/_spec.js': ['webpack', 'sourcemap'],
             '.tmp/**/*.html': ['html2js']
+        },
+        webpack: {
+            module: {
+                preLoaders: [
+                    {
+                        test: /\.js$/,
+                        exclude: /node_modules|test/,
+                        loader: "eslint-loader"
+                    }
+                ]
+            },
+            eslint: {
+                configFile: '.eslintrc'
+            },
+            resolve: {
+                root: [
+                    path.join(process.cwd(), '/lib')
+                ]
+            },
+            devtool: 'inline-source-map'
+        },
+        webpackMiddleware: {
+            noInfo: true
         },
         colors: true,
         logLevel: config.LOG_INFO

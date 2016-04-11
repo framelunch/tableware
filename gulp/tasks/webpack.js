@@ -6,6 +6,7 @@ var
     rename = require('gulp-rename'),
     webpack = require('gulp-webpack'),
     uglify = require("gulp-uglify"),
+    stripDebug = require('gulp-strip-debug'),
     browser = require('browser-sync'),
     conf = require('../config');
 
@@ -31,6 +32,7 @@ gulp.task('b.webpack', ['webpack.entry'], function () {
 
     gulp.src(conf.js.src)
         .pipe(webpack(c))
+        .pipe(stripDebug())
         .pipe(uglify())
         .pipe(gulp.dest(conf.dest.build.client + '/js'))
 });
@@ -47,6 +49,7 @@ gulp.task('d.webpack', ['webpack.entryForDist'], function () {
 
     gulp.src(conf.dest.dist + '/*.js')
         .pipe(webpack(c))
+        .pipe(stripDebug())
 
         .pipe(rename(conf.js.rename.normal))
         .pipe(gulp.dest(conf.dest.dist))

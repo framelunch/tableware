@@ -1,4 +1,4 @@
-var angle = require('../../../lib/utils/angle');
+var angle = require('utils/angle');
 
 describe('utils/angle', function () {
     it('should degree 0 is angle 0', function () {

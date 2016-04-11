@@ -120,21 +120,8 @@ module.exports = {
     eslint: {
         src: ['lib/**/*.js'],
         option: {
-            extends: 'eslint:recommended',
-            parserOptions: {},
-            rules: {
-                "semi": 2,
-                'strict': 2,
-                'no-console': 0,
-                'no-unused-vars': 1,
-                //'vars-on-top': 2,
-                'camelcase': 1,
-                'eqeqeq': 2
-            },
-            globals: {},
-            envs: [
-                'browser', 'node', 'es6'
-            ]
+            configFile: '.eslintrc'
+            
         }
     },
     
@@ -149,8 +136,7 @@ module.exports = {
     watch: {
         ejs: ['ejs/**/*.ejs', 'common/**/*.ejs', 'components/**/*.ejs'],
         sass: ['sass/**/*.scss', 'common/**/*.scss', 'components/**/*.scss'],
-        js: ['js/**/*.js', 'lib/**/*.js', 'components/**/*.js', 'components/**/*.html'],
-        jasmine: ['test/**/*.spec.js']
+        js: ['js/**/*.js', 'lib/**/*.js', 'components/**/*.js', 'components/**/*.html']
     },
 
     browser: {

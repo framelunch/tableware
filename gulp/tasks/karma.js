@@ -7,7 +7,7 @@ var
 /**
  * Run test once and exit
  */
-gulp.task('e2e', function (done) {
+gulp.task('karma', function (done) {
     new Server({
         configFile: configFile,
         singleRun: true
@@ -20,7 +20,7 @@ gulp.task('e2e', function (done) {
 /**
  * Watch for file changes and re-run tests on each change
  */
-gulp.task('e2e.tdd', function (done) {
+gulp.task('tdd', function (done) {
     new Server({
         configFile: configFile
     }, done).start();

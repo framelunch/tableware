@@ -1,4 +1,4 @@
-var notice = require('../../lib/notice');
+var notice = require('notice');
 
 describe("notice", function() {
     var callback = function (cb) {

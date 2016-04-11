@@ -1,4 +1,4 @@
-var kvs = require('../../lib/kvs');
+var kvs = require('kvs');
 
 describe("kvs", function() {
     it("should get a setting value", function() {
