@@ -100,6 +100,7 @@ module.exports = {
     },
     webpackOption: {
         dev: {
+            entry: {'_spec': './test/_spec.js'},
             cache: true,
             debug: true,
             devtool: '#source-map'
@@ -116,10 +117,40 @@ module.exports = {
         }
     },
 
+    eslint: {
+        src: ['lib/**/*.js'],
+        option: {
+            extends: 'eslint:recommended',
+            parserOptions: {},
+            rules: {
+                "semi": 2,
+                'strict': 2,
+                'no-console': 0,
+                'no-unused-vars': 1,
+                //'vars-on-top': 2,
+                'camelcase': 1,
+                'eqeqeq': 2
+            },
+            globals: {},
+            envs: [
+                'browser', 'node', 'es6'
+            ]
+        }
+    },
+    
+    jasmine: {
+        src: ['test/spec/**/*.spec.js'],
+        option: {
+            verbose: false,
+            includeStackTrace: true
+        }
+    },
+    
     watch: {
         ejs: ['ejs/**/*.ejs', 'common/**/*.ejs', 'components/**/*.ejs'],
         sass: ['sass/**/*.scss', 'common/**/*.scss', 'components/**/*.scss'],
-        js: ['js/**/*.js', 'lib/**/*.js', 'components/**/*.js', 'components/**/*.html']
+        js: ['js/**/*.js', 'lib/**/*.js', 'components/**/*.js', 'components/**/*.html'],
+        jasmine: ['test/**/*.spec.js']
     },
 
     browser: {

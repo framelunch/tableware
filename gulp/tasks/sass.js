@@ -11,7 +11,12 @@ var
 
 gulp.task('sass', function () {
     return gulp.src(conf.sass.src)
-        .pipe(plumber())
+        .pipe(plumber({
+            errorHandler: function(err) {
+                console.log(err.messageFormatted);
+                this.emit('end');
+            }
+        }))
         .pipe(sourcemaps.init())
         .pipe(sass())
         .pipe(replace(conf.replace.match, conf.replace.to))

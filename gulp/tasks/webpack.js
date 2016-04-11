@@ -1,38 +1,38 @@
 var
-  _ = require('lodash'),
-  gulp = require('gulp'),
-  plumber = require("gulp-plumber"),
-  sourcemaps = require('gulp-sourcemaps'),
-  rename = require('gulp-rename'),
-  webpack = require('gulp-webpack'),
-  uglify = require("gulp-uglify"),
-  browser = require('browser-sync'),
-  conf = require('../config');
+    _ = require('lodash'),
+    gulp = require('gulp'),
+    plumber = require("gulp-plumber"),
+    sourcemaps = require('gulp-sourcemaps'),
+    rename = require('gulp-rename'),
+    webpack = require('gulp-webpack'),
+    uglify = require("gulp-uglify"),
+    browser = require('browser-sync'),
+    conf = require('../config');
 
 gulp.task('webpack.entry', function () {
-  return gulp.src(conf.js.src)
-    .pipe(rename(function (path) {
-      conf.webpack.entry[path.basename] = './js/' + path.basename;
-    }))
+    return gulp.src(conf.js.src)
+        .pipe(rename(function (path) {
+            conf.webpack.entry[path.basename] = './js/' + path.basename;
+        }))
 });
 
 gulp.task('webpack', ['webpack.entry'], function () {
-  var c = _.merge({}, conf.webpack, conf.webpackOption.dev);
-
-  return gulp.src(conf.js.src)
-    .pipe(plumber())
-    .pipe(webpack(c))
-    .pipe(gulp.dest(conf.dest.dev + '/js'))
-    .pipe(browser.reload({stream:true}))
+    var c = _.merge({}, conf.webpack, conf.webpackOption.dev);
+    
+    return gulp.src(conf.js.src)
+        .pipe(plumber())
+        .pipe(webpack(c))
+        .pipe(gulp.dest(conf.dest.dev + '/js'))
+        .pipe(browser.reload({stream:true}))
 });
 
 gulp.task('b.webpack', ['webpack.entry'], function () {
-  var c = _.merge({}, conf.webpack, conf.webpackOption.build);
+    var c = _.merge({}, conf.webpack, conf.webpackOption.build);
 
-  gulp.src(conf.js.src)
-    .pipe(webpack(c))
-    .pipe(uglify())
-    .pipe(gulp.dest(conf.dest.build.client + '/js'))
+    gulp.src(conf.js.src)
+        .pipe(webpack(c))
+        .pipe(uglify())
+        .pipe(gulp.dest(conf.dest.build.client + '/js'))
 });
 
 

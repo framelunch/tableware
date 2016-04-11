@@ -1,5 +1,5 @@
 var
-    o = require('o'),
+    o = require('$'),
     oC = require('canvas'),
     oA = require("anim"),
 
@@ -53,6 +53,8 @@ var
             oWin = o(window),
             oDiv = o('<div>');
 
+        console.log(oDom1);
+        
         oDom1.addClass('class2');
 
         oDom1.append(
@@ -63,6 +65,7 @@ var
         oDom1.hidden(false);
 
         console.log(o('aaa'));
+
 
         console.log(333, getStyle(oDom1[0], 'border-top-color'));
         oDom1.css({'background-color': '#ff0000'});
@@ -102,3 +105,5 @@ var
     };
 
 init();
+
+window.$ = o;
