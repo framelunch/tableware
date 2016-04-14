@@ -121,7 +121,7 @@ module.exports = {
         src: ['lib/**/*.js'],
         option: {
             configFile: '.eslintrc'
-            
+
         }
     },
     
@@ -147,6 +147,17 @@ module.exports = {
             routes: {
                 '/assets': 'assets',
                 '/data': 'data'
+            }
+        }
+    },
+
+    jsdoc: {
+        src: ['README.md', 'lib/**/*.js'],
+        config: {
+            opts: {
+                "encoding": "utf8",
+                "destination": "docs/",
+                "recurse": true
             }
         }
     }
