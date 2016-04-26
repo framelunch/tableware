@@ -5,7 +5,10 @@ var path = require('path');
 module.exports = function(config) {
     config.set({
         basePath: '',
-        browsers: ['Chrome'],
+        browsers: [
+            //'Chrome'
+            'PhantomJS'
+        ],
         frameworks: ['jasmine'],
         files: [
             'test/_spec.js'

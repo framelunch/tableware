@@ -7,7 +7,7 @@ var
 /**
  * Run test once and exit
  */
-gulp.task('karma', function (done) {
+gulp.task('test', function (done) {
     new Server({
         configFile: configFile,
         singleRun: true
