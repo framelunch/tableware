@@ -1,7 +1,7 @@
 <%
 var conf = {
     title : '',
-    js: ['index'],
+    js: ['index', 'template'],
     css: ['index']
 };
 %>
@@ -29,7 +29,6 @@ var conf = {
              viewBox="0 0 300 300"
              enable-background="new 0 0 300 300" xml:space="preserve">
 
-
             <path
                 id="path1"
                 fill="#FFFFFF"
@@ -37,6 +36,45 @@ var conf = {
                 stroke-width="1"
                 stroke-miterlimit="10"></path>
         </svg>
+    </div>
+
+    <div id="template" class="mContainer">
+        <div class="mFormGroup">
+            <input type="text" class="mFormGroup_text" tw-model="text1" tw-change="onInput">
+            ${text1}
+        </div>
+        <div class="mFormGroup">
+            <select tw-model="select" tw-option="options" tw-change="onChange"></select>
+            <label>checkbox</label><input type="checkbox" tw-model="check">
+            <button class="btn btn-default" tw-click="onClick">button</button>
+        </div>
+
+        <div class="mFormGroup">
+            <input type="radio" tw-model="radio" value="a" tw-click="onCheck">a<br>
+            <input type="radio" tw-model="radio" value="b">b<br>
+            <input type="radio" tw-model="radio" value="c">c
+        </div>
+
+        <div>
+            <div tw-for="data">
+                array -> ${name} & ${value} & ${__index}
+                <input type="checkbox" tw-model="check" tw-change="onCheck">
+                <label>${__parent.text1}</label>
+            </div>
+        </div>
+
+        <div>
+            <div tw-for="data2">${name}, ${arr.0.a}</div>
+        </div>
+
+        <div>
+            <p>${text1} & ${radio}</p>
+            <p>
+                ${text1} and ${text2.a}<br>
+                <span>${select.name}</span>
+            </p>
+            <p>${check}</p>
+        </div>
     </div>
 
 </div>

@@ -121,15 +121,6 @@ module.exports = {
         src: ['lib/**/*.js'],
         option: {
             configFile: '.eslintrc'
-
-        }
-    },
-    
-    jasmine: {
-        src: ['test/spec/**/*.spec.js'],
-        option: {
-            verbose: false,
-            includeStackTrace: true
         }
     },
     

@@ -12,8 +12,10 @@
 .txt-left {  text-align: left;  }
 .txt-center {  text-align: center;  }
 .txt-right {  text-align: right;  }
-.txt-just {  text-align: justify;  text-justify: distribute-all-lines;  }
-.txt-bold { font-weight: bold }
+.txt-just {  text-align: justify;  text-justify: distribute;  }
+
+.font-bold { font-weight: bold; }
+.font-italic { font-style: italic; }
 
 .va-top {  vertical-align: top;  }
 .va-middle {  vertical-align: middle;  }
@@ -48,21 +50,32 @@
 .mt10 { margin-top: 10px; }
 .mt15 { margin-top: 15px; }
 .mt20 { margin-top: 20px; }
+.mt25 { margin-top: 25px; }
+.mt30 { margin-top: 30px; }
 
 .mb5 { margin-bottom: 5px; }
 .mb10 { margin-bottom: 10px; }
 .mb15 { margin-bottom: 15px; }
 .mb20 { margin-bottom: 20px; }
+.mb25 { margin-bottom: 25px; }
+.mb30 { margin-bottom: 30px; }
 
 .pt5 {  padding-top: 5px;  }
 .pt10 {  padding-top: 10px;  }
 .pt15 {  padding-top: 15px;  }
 .pt20 {  padding-top: 20px;  }
+.pt25 {  padding-top: 25px;  }
+.pt30 {  padding-top: 30px;  }
 
 .pb5 {  padding-bottom: 5px;  }
 .pb10 {  padding-bottom: 10px;  }
 .pb15 {  padding-bottom: 15px;  }
 .pb20 {  padding-bottom: 20px;  }
+.pb25 {  padding-bottom: 25px;  }
+.pb30 {  padding-bottom: 30px;  }
+
+.w100 { width: 100%; }
+.h100 { height: 100%; }
 
 .btn {
     appearance: none;
@@ -80,9 +93,20 @@
 }
 .btn-default {
     padding: 10px 20px;
-    box-sizing: border-box;
+    font-size: 1.6rem;
     border: 1px solid $gray-light;
     background: white;
     color: $gray-dark;
+}
+.btn-s {
+    padding: 3px 6px;
+    font-size: 1.2em;
+}
+.btn-m {
+    padding: 5px 10px;
+    font-size: 1.4rem;
+}
+.btn-l {
+    padding: 10px 20px;
     font-size: 1.6rem;
 }

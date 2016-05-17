@@ -5,7 +5,7 @@ var
     config = require('../config')
     ;
 
-gulp.task('lint', function () {
+gulp.task('eslint', function () {
     return gulp.src(config.eslint.src)
         .pipe(plumber())
         .pipe(eslint(config.eslint.option))
