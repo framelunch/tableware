@@ -1,5 +1,6 @@
 'use strict';
 
+exports.date = new Date();
 exports.text1  = 'test text';
 exports.text2  = {a:'aaaaabbbb bb'};
 exports.check = true;
@@ -24,6 +25,10 @@ exports.data2 = {
     }]}
 };
 
+var dateFormat = require('utils/dateFormat');
+exports.onDate = function (date) {
+    console.log(dateFormat(date, 'yy:m:dd'));
+};
 exports.onInput = function (e) {
     console.log(e.target.value);
 };
@@ -42,3 +47,10 @@ exports.onCheck = function (e) {
 var $ = require('$');
 var template = require('ui/template')('#template', exports);
 
+var dp = require('ui/date-picker');
+var datePicker = dp('#date-picker');
+datePicker.select(function (date) {
+    console.log(date);
+});
+
+dp('#input-date');

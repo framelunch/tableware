@@ -20,6 +20,12 @@ var conf = {
 
     <div id="dom1" class="class1"><div id="a"></div></div>
 
+    <div id="date-picker"></div>
+
+    <div>
+        <input id="input-date" type="text" dp-format="yyyy年mm月dd日">
+    </div>
+
     <div>
         <svg version="1.1" id="svg1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
              x="0px"
@@ -40,8 +46,9 @@ var conf = {
 
     <div id="template" class="mContainer">
         <div class="mFormGroup">
+            <input tw-extend="datePicker" tw-model="date" tw-change="onDate" dp-format="yyyy-mm-dd">
             <input type="text" class="mFormGroup_text" tw-model="text1" tw-change="onInput">
-            ${text1}
+            ${text1} && ${date|date:yyyy年mm月dd日}
         </div>
         <div class="mFormGroup">
             <select tw-model="select" tw-option="options" tw-change="onChange"></select>
@@ -64,7 +71,10 @@ var conf = {
         </div>
 
         <div>
-            <div tw-for="data2">${name}, ${arr.0.a}</div>
+            <div tw-for="data2">
+                ${name}, ${arr.0.a}
+                <div tw-for="arr">${a} & ${b}</div>
+            </div>
         </div>
 
         <div>

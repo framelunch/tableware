@@ -126,7 +126,7 @@ module.exports = {
     
     watch: {
         ejs: ['ejs/**/*.ejs', 'common/**/*.ejs', 'components/**/*.ejs'],
-        sass: ['sass/**/*.scss', 'common/**/*.scss', 'components/**/*.scss'],
+        sass: ['sass/**/*.scss', 'common/**/*.scss', 'components/**/*.scss', 'lib/**/*.scss'],
         js: ['js/**/*.js', 'lib/**/*.js', 'components/**/*.js', 'components/**/*.html']
     },
 

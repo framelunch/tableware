@@ -1,0 +1,48 @@
+.mDatePicker {
+    background: white;
+    padding: 10px;
+    width: 240px;
+    table {
+        width: 100%;
+        border: 1px solid $gray-lighter;
+    }
+    table th {
+        width: 14.2857%;
+        font-weight: bold;
+    }
+    table td {
+        border: 1px solid $gray-lighter;
+        text-align: center;
+        padding: 5px;
+    }
+    @include e(prev) {
+        float: left;
+    }
+    @include e(next) {
+        float: right;
+    }
+    @include e(title) {
+        display: block;
+        text-align: center;
+    }
+    @include e(date) {
+        cursor: pointer;
+        &:hover {
+            background: $gray-lighter;
+        }
+    }
+    .mDatePicker_week.dp-week-5,
+    .mDatePicker_date.dp-5 {
+        color: $blue;
+    }
+    .mDatePicker_week.dp-week-6,
+    .mDatePicker_date.dp-6 {
+        color: $red;
+    }
+    .mDatePicker_date.dp-today {
+        background-color: $blue-lightest;
+    }
+    .mDatePicker_date.dp-otherMonth {
+        opacity: 0.3;
+    }
+}
