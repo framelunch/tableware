@@ -1,35 +1,39 @@
 .mDatePicker {
     background: white;
-    padding: 10px;
+    padding: 5px;
     width: 240px;
-    table {
+    box-shadow: 0px 0px 5px $gray;
+
+    table.mDatePicker_table {
         width: 100%;
-        border: 1px solid $gray-lighter;
+        //border: 1px solid $gray-lighter;
     }
-    table th {
+    table > tbody > tr > td {
+        border: none;
         width: 14.2857%;
-        font-weight: bold;
-    }
-    table td {
-        border: 1px solid $gray-lighter;
         text-align: center;
         padding: 5px;
+        font-size: 1em;
+        font-weight: normal;
     }
-    @include e(prev) {
-        float: left;
-    }
-    @include e(next) {
-        float: right;
-    }
-    @include e(title) {
-        display: block;
-        text-align: center;
-    }
-    @include e(date) {
+    table > tbody > tr > td.mDatePicker_date {
         cursor: pointer;
+        //border: 1px solid $gray-lighter;
         &:hover {
             background: $gray-lighter;
         }
+    }
+    .mDatePicker_title {
+        font-weight: bold;
+        font-size: 1.2em;
+    }
+    .mDatePicker_prev,
+    .mDatePicker_next {
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .mDatePicker_week {
+        font-weight: bold;
     }
     .mDatePicker_week.dp-week-5,
     .mDatePicker_date.dp-5 {
