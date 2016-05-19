@@ -2,7 +2,10 @@
     background: white;
     padding: 5px;
     width: 240px;
-    box-shadow: 0px 0px 5px $gray;
+
+    @include e(container) {
+        box-shadow: 0px 0px 5px $gray;
+    }
 
     table.mDatePicker_table {
         width: 100%;
