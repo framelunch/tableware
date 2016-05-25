@@ -13,7 +13,7 @@ var
 gulp.task('ejs', function () {
     return gulp.src(conf.ejs.src)
         .pipe(plumber())
-        .pipe(ejs())
+        .pipe(ejs(null, {"ext": '.html'}))
         .pipe(rename(conf.ejs.rename))
         .pipe(replace(conf.replace.match, conf.replace.to))
         .pipe(gulp.dest(conf.dest.dev))
@@ -22,7 +22,7 @@ gulp.task('ejs', function () {
 
 gulp.task('b.ejs', function () {
     gulp.src(conf.ejs.src)
-        .pipe(ejs())
+        .pipe(ejs(null, {"ext": '.html'}))
         .pipe(rename(conf.ejs.rename))
         .pipe(replace(conf.replace.match, conf.replace.to))
         //.pipe(prettify({indent_size: 2}))
