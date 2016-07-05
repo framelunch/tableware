@@ -1,3 +1,5 @@
+'use strict';
+
 var
     o = require('$'),
     oC = require('canvas'),
@@ -81,8 +83,8 @@ var
             oA.to(oWin, {scrollTop: 10}, 500),
             oA.from('#overflow', {scrollTop: 200}, 1000, oA.QuintOut),
             oA.to('#overflow', {scrollTop: 20, css:{overflow:'hidden'}}, 1000),
-            oA.to('#of2', {opacity:0.2}, 500)
-        );//.play();
+            oA.to('#of2', {opacity:0.2, css:{width: '10%'}}, 500)
+        ).play();
 
 
         var d = 'M34,238.035c-2.2,0-4.552-1.713-5.228-3.807l-17.545-84.422c-0.675-2.094-0.675-5.521,0-7.614l17.545-84.421c0.675-2.094,3.027-3.807,5.228-3.807h232c2.2,0,4.553,1.713,5.229,3.807l17.545,84.421c0.675,2.094,0.675,5.521,0,7.614l-17.545,84.422c-0.676,2.094-3.027,3.807-5.229,3.807H34z';
@@ -101,7 +103,7 @@ var
                     'stroke': '#ff0000'
                 }
             }, 800, oA.QuintOut)
-        );//.play();
+        ).play();
     };
 
 init();

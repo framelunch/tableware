@@ -44,14 +44,14 @@ var conf = {
         </svg>
     </div>
 
-    <div id="template" class="mContainer">
+    <div id="template" class="mContainer" style="display: none">
         <div class="mFormGroup">
             <input tw-extend="datePicker" tw-model="date" tw-change="onDate" dp-format="yyyy-mm-dd">
             <input type="text" class="mFormGroup_text" tw-model="text1" tw-change="onInput">
             ${text1} && ${date|date:yyyy年mm月dd日}
         </div>
         <div class="mFormGroup">
-            <select tw-model="select" tw-option="options" tw-change="onChange"></select>
+            <select tw-model="select" tw-extend="select" tw-option="options" tw-change="onChange"></select>
             <label>checkbox</label><input type="checkbox" tw-model="check">
             <button class="btn btn-default" tw-click="onClick">button</button>
         </div>

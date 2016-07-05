@@ -45,7 +45,7 @@ exports.onCheck = function (e) {
 };
 
 var $ = require('$');
-var template = require('ui/template')('#template', exports);
+var template = require('template')('#template');
 
 var dp = require('ui/date-picker');
 var datePicker = dp('#date-picker');
@@ -54,3 +54,4 @@ datePicker.select(function (date) {
 });
 
 dp('#input-date');
+template.init(exports).updateWithModel();
