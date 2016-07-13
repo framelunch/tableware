@@ -4,7 +4,7 @@ var
     plumber = require("gulp-plumber"),
     sourcemaps = require('gulp-sourcemaps'),
     rename = require('gulp-rename'),
-    webpack = require('gulp-webpack'),
+    webpack = require('webpack-stream'),
     uglify = require("gulp-uglify"),
     stripDebug = require('gulp-strip-debug'),
     browser = require('browser-sync'),
@@ -14,7 +14,7 @@ gulp.task('webpack.entry', function () {
     return gulp.src(conf.js.src)
         .pipe(rename(function (path) {
             conf.webpack.entry[path.basename] = './js/' + path.basename;
-        }))
+        }));
 });
 
 gulp.task('webpack', ['webpack.entry'], function () {
@@ -24,7 +24,7 @@ gulp.task('webpack', ['webpack.entry'], function () {
         .pipe(plumber())
         .pipe(webpack(c))
         .pipe(gulp.dest(conf.dest.dev + '/js'))
-        .pipe(browser.reload({stream:true}))
+        .pipe(browser.reload({stream:true}));
 });
 
 gulp.task('b.webpack', ['webpack.entry'], function () {

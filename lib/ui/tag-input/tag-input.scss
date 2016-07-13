@@ -1,0 +1,53 @@
+.mTagInput {
+    @include e(container) {
+        border: 1px solid #dbdbdb;
+        display: flex;
+        padding: 2px;
+    }
+    @include e(item) {
+        border: 1px solid #b3dcf5;
+        background: #def1f9;
+        font-size: 1.1rem;
+        padding: 0 2px;
+        margin-right: 3px;
+        vertical-align: middle;
+        line-height: 1.5rem;
+        white-space: nowrap;
+
+        .span {
+            vertical-align: baseline;
+        }
+        .fa {
+           cursor: pointer;
+        }
+    }
+    @include e(input) {
+        border: none;
+        flex-grow: 1;
+        line-height: 1.5rem;
+    }
+
+    @include e(optContainer) {
+        position: relative;
+        width: 100%;
+        margin-top: 1px;
+    }
+    @include e(options) {
+        position: absolute;
+        z-index: 9999;
+
+        border: 1px solid #dbdbdb;
+        background: white;
+        box-sizing: border-box;
+        width: 100%;
+    }
+    @include e(option) {
+        font-size: 1.1rem;
+        padding: 0 2px;
+        cursor: pointer;
+
+        &.hover {
+            background: #ebebeb;
+        }
+    }
+}

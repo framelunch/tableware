@@ -5,7 +5,7 @@ var
     replace = require('gulp-replace'),
     sourcemaps = require('gulp-sourcemaps'),
     autoprefixer = require("gulp-autoprefixer"),
-    minifyCss = require("gulp-minify-css"),
+    minifyCss = require("gulp-clean-css"),
     browser = require('browser-sync'),
     conf = require('../config');
 
